@@ -1,9 +1,11 @@
 package com.alura.projeto_tabelaFipe.principal;
 
 import com.alura.projeto_tabelaFipe.model.Dados;
+import com.alura.projeto_tabelaFipe.model.Modelos;
 import com.alura.projeto_tabelaFipe.service.ConsumoApi;
 import com.alura.projeto_tabelaFipe.service.ConverterDados;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,15 +22,25 @@ public class Principal {
         System.out.println("*** Opções ***\n" +
                 "Carros\n" +
                 "Motos\n" +
-                "Caminhões\n" +
-                "===Digite===");
+                "Caminhoes\n" +
+                "\nDigite uma das opções para consultar:");
         var opcao = leitura.nextLine().toLowerCase();
         var json = consumoApi.obterDados(ENDERECO + opcao + "/marcas");
 
-        //lista as marcas
+        // Lista as opções das marcas e seus códigos
         List<Dados> marcas = conversor.obterLista(json, Dados.class);
 
         marcas.stream()
+                .forEach(System.out::println);
+
+        // Lista os modelos e seus códigos
+        System.out.println("Informe o código da marca:");
+        var codMarca = leitura.nextLine();
+        var json2 = consumoApi.obterDados(ENDERECO + opcao + "/marcas/" + codMarca + "/modelos");
+
+        Modelos listaModelos = conversor.obterDados(json2, Modelos.class);
+
+        listaModelos.modelos().stream()
                 .forEach(System.out::println);
     }
 }
