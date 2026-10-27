@@ -7,6 +7,7 @@ import com.alura.projeto_tabelaFipe.service.ConverterDados;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Principal {
@@ -41,6 +42,14 @@ public class Principal {
         Modelos listaModelos = conversor.obterDados(json2, Modelos.class);
 
         listaModelos.modelos().stream()
+                .forEach(System.out::println);
+
+        // Filta o nome do veículo
+        System.out.println("Digite o nome do veículo para consultar:");
+        var trechoVeiculo = leitura.nextLine();
+
+        listaModelos.modelos().stream()
+                .filter(m -> m.nomeDados().toLowerCase().contains(trechoVeiculo.toLowerCase()))
                 .forEach(System.out::println);
     }
 }
